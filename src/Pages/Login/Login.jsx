@@ -1,51 +1,37 @@
-import {Logo, LogInButton, SignUpButton} from'../../components'
+import { Logo, LogInButton, SignUpButton } from '../../components';
 import LogoSVG from '../../assets/svg/LogoLogin.svg';
-import { useTheme } from '../../components/ThemeContext';
 
 const Login = () => {
-    const { theme } = useTheme();
-    let back, letra;
-    if(theme == 'dark' )
-    {
-        back = '#151618';
-        letra = 'white';
-    }
-    else
-    {
-        back = '#FFFFFF';
-        letra = 'black';
-    }
-
-    return(
+    return (
         <>
-            <div className={`bg-[${back}]`}>
-                <div className='bg-[#2B2D31]'>
-                    <div>
-                        <img className='LoginLogo' src={LogoSVG} alt="Logo"/>
-                        <form action="/LogIn">
-                            <p>User:</p>
-                            <input type="text" id="User"/>
-                            <p>Pasword:</p>
-                            <input type="password" id="Password"/>
-                            <div className={`flex flex-col items-center justify-center text-white`}>
-                            
-                                <div className='mb-2 mt-4'>
-                                    <LogInButton/>
-                                </div>
-                            
-                            <h2 className={`text-${letra} font-bold`}>- or -</h2>
-                            
-                                <div className='mb-[3.5rem] mt-2'>
-                                    <SignUpButton/>
-                                </div>
-                            
+            <div className="min-h-screen flex items-center justify-center bg-[#2B2D31]">
+                <div className="w-full max-w-md px-4">
+                    <div className="flex justify-center">
+                        <img className='LoginLogo w-48 md:w-64 h-auto' src={LogoSVG} alt="Logo"/>
                     </div>
-                        </form>
-                    </div>
+                    <form action="/LogIn" className="mt-4">
+                        <div className="mb-4">
+                            <label htmlFor="User" className="text-white mb-2">User:</label>
+                            <input type="text" id="User" className="block w-full md:w-full lg:w-96 h-10 px-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"/>
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="Password" className="text-white mb-2">Password:</label>
+                            <input type="password" id="Password" className="block w-full md:w-full lg:w-96 h-10 px-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"/>
+                        </div>
+                        <div className="flex flex-col items-center justify-center text-white">
+                            <div className='mb-4'>
+                                <LogInButton/>
+                            </div>
+                            <h2 className="font-bold mb-2">- or -</h2>
+                            <div className='mb-[3.5rem]'>
+                                <SignUpButton/>
+                            </div>
+                        </div>
+                    </form>
                 </div>
             </div>
         </>
     );
 }
 
-export default Login
+export default Login;
