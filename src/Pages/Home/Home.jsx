@@ -23,14 +23,18 @@ const Home = () => {
                     <div className='max-w-[10rem]'>
                         <Logo/>
                     </div>
-                    <h1 className={`text-${letra}`}>Transform your words into sparks that illuminate on FlareFlow</h1>
-                    <div className={`flex flex-col items-center justify-center text-${letra}`}>
+                    <h1 className={`text-${letra} text-2xl ml-6 mr-6`}>Transform your words into sparks that illuminate on FlareFlow</h1>
+                    <div className={`flex flex-col items-center justify-center text-white`}>
                         <NavLink to ='/login'>
-                            <LogInButton/>
+                            <div className='mb-2 mt-4'>
+                                <LogInButton/>
+                            </div>
                         </NavLink>
-                        <h2>or</h2>
+                        <h2 className={`text-${letra} font-bold`}>- or -</h2>
                         <NavLink to ='/signup'>
-                            <SignUpButton/>
+                            <div className='mb-[3.5rem] mt-2'>
+                                <SignUpButton/>
+                            </div>
                         </NavLink>
                     </div>
                 </div>
