@@ -1,6 +1,15 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from './AuthContext'
 
 const Sidebar = ({ isOpen, toggleSidebar }) => {
+  const navigate = useNavigate();
+  const {logout} = useAuth();
+  const handleLogoutClick = () => {
+    logout();
+    navigate('/')
+  };
+
   return (
     <div
       className={`fixed inset-y-0 right-0 w-64 bg-[#2B2D31] shadow-md text-white transform ${
@@ -20,6 +29,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
             <p className="text-gray-500">@username</p>
           </div>
         </div>
+        <button onClick={handleLogoutClick} className="mt-4 w-full bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline">
+          Log Out
+        </button>
       </div>
     </div>
   );

@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
-import { useNavigate, NavLink } from 'react-router-dom';
-import { LogInButton, SignUpButton } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import LogoSVG from '../../assets/svg/LogoLogin.svg';
 import ArrowLeftSVG from '../../assets/svg/ArrowLeft.svg';
-
+import { LogInButton, SignUpButton } from '../../components';
+import { useAuth } from '../../components/AuthContext';
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
@@ -12,6 +13,7 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
+    const { isAuthenticated } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -29,22 +31,12 @@ const SignUp = () => {
         setIsSubmitting(true);
 
         try {
-            const response = await fetch('https://api-proyecto-twitter.vercel.app/signup', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(userData),
-            });
-
+            const response = await axios.post('https://api-proyecto-twitter.vercel.app/signup', userData);
             if (response.ok) {
-                const data = await response.json();
                 navigate('/login');
-                alert('usuario creado inicie sesion');
+                alert('Usuario creado, inicie sesión');
             } else {
-                const errorData = await response.json();
-                console.error('Error al crear el usuario:', errorData);
-                alert('Error: ' + (errorData.message || 'Unknown error occurred'));
+                alert('Error al crear usuario');
             }
         } catch (error) {
             console.error('Error en la solicitud:', error);
@@ -53,6 +45,12 @@ const SignUp = () => {
             setIsSubmitting(false);
         }
     };
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/feed', { replace: true });
+        }
+    }, [isAuthenticated, navigate]);
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#2B2D31] relative">
