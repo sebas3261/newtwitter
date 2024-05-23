@@ -1,13 +1,16 @@
-import { useState } from 'react';
-import { LogInButton, SignUpButton } from '../../components';
+import React, { useState, useEffect } from 'react';
+import { NavLink, useNavigate } from 'react-router-dom';
+import axios from 'axios';
 import LogoSVG from '../../assets/svg/LogoLogin.svg';
 import ArrowLeftSVG from '../../assets/svg/ArrowLeft.svg';
-import { NavLink } from 'react-router-dom';
-import axios from 'axios';
+import { LogInButton, SignUpButton } from '../../components';
+import { useAuth } from '../../components/AuthContext';
 
 const Login = () => {
     const [userData, setUserData] = useState({ identifier: '', password: '' });
     const [error, setError] = useState('');
+    const { isAuthenticated, login } = useAuth(); // Obtener el estado de autenticación y la función de inicio de sesión del contexto de autenticación
+    const navigate = useNavigate();
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -22,10 +25,22 @@ const Login = () => {
             console.log('Token de sesión:', token);
             localStorage.setItem('token', token);
             document.cookie = `token=${token}; path=/;`;
+            login(userData); 
+            navigate('/feed', { replace: true }); 
         } catch (error) {
-            setError(error.response.data.error);
+            if (error.response) {
+                setError(error.response.data.error);
+            } else {
+                setError('Error en la solicitud');
+            }
         }
     };
+
+    useEffect(() => {
+        if (isAuthenticated) {
+            navigate('/feed', { replace: true });
+        }
+    }, [isAuthenticated, navigate]);
 
     return (
         <>
@@ -64,7 +79,7 @@ const Login = () => {
                         <div className="flex flex-col items-center justify-center text-white">
                             <div className='mb-2'>
                                 <button type="submit">
-                                    <LogInButton/>
+                                    <LogInButton />
                                 </button>
                             </div>
                             <h2 className="font-bold mb-2">- or -</h2>
