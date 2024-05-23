@@ -21,9 +21,10 @@ const Login = () => {
         e.preventDefault();
         try {
             const response = await axios.post('https://api-proyecto-twitter.vercel.app/login', userData);
-            const { token } = response.data;
+            const { token } = response.data; // Obtener el token de la respuesta del backend
             console.log('Token de sesión:', token);
             localStorage.setItem('token', token);
+            localStorage.setItem('user', JSON.stringify(userData.identifier)); // Guardar el nombre de usuario en el local storage
             document.cookie = `token=${token}; path=/;`;
             login(userData); 
             navigate('/feed', { replace: true }); 

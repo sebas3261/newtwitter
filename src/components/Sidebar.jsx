@@ -6,6 +6,9 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
   const navigate = useNavigate();
   const { logout } = useAuth();
 
+  // Obtener el nombre de usuario del local storage
+  const userName = localStorage.getItem('user');
+
   const handleLogoutClick = () => {
     logout();
     navigate('/');
@@ -26,8 +29,8 @@ const Sidebar = ({ isOpen, toggleSidebar }) => {
           <div className="flex items-center space-x-4">
             <img src="https://via.placeholder.com/50" alt="Profile" className="rounded-full" />
             <div>
-              <h2 className="text-lg font-bold">User Name</h2>
-              <p className="text-gray-500">@username</p>
+              <h2 className="text-lg font-bold">{userName}</h2> {/* Aquí asegúrate de que userName sea una cadena */}
+              <p className="text-gray-500">@{userName}</p> {/* También aquí */}
             </div>
           </div>
           <button
