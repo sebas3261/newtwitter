@@ -1,9 +1,9 @@
-import React, { useState, useEffect } from 'react';
-import { NavLink, useNavigate } from 'react-router-dom';
+import React, { useState } from 'react';
+import { useNavigate, NavLink } from 'react-router-dom';
+import { LogInButton, SignUpButton } from '../../components';
 import LogoSVG from '../../assets/svg/LogoLogin.svg';
 import ArrowLeftSVG from '../../assets/svg/ArrowLeft.svg';
-import { LogInButton, SignUpButton } from '../../components';
-import { useAuth } from '../../components/AuthContext';
+
 
 const SignUp = () => {
     const [username, setUsername] = useState('');
@@ -12,7 +12,6 @@ const SignUp = () => {
     const [confirmPassword, setConfirmPassword] = useState('');
     const [isSubmitting, setIsSubmitting] = useState(false);
     const navigate = useNavigate();
-    const { isAuthenticated } = useAuth();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -41,7 +40,7 @@ const SignUp = () => {
             if (response.ok) {
                 const data = await response.json();
                 navigate('/login');
-                alert('Usuario creado, inicie sesión');
+                alert('usuario creado inicie sesion');
             } else {
                 const errorData = await response.json();
                 console.error('Error al crear el usuario:', errorData);
@@ -53,13 +52,8 @@ const SignUp = () => {
         } finally {
             setIsSubmitting(false);
         }
-    };
 
-    useEffect(() => {
-        if (isAuthenticated) {
-            navigate('/feed', { replace: true });
-        }
-    }, [isAuthenticated, navigate]);
+    };
 
     return (
         <div className="min-h-screen flex items-center justify-center bg-[#2B2D31] relative">
@@ -71,7 +65,50 @@ const SignUp = () => {
                     <img className='LoginLogo w-48 md:w-64 h-auto' src={LogoSVG} alt="Logo" />
                 </div>
                 <form className="mt-4" onSubmit={handleSubmit}>
-                    {/* Campos del formulario */}
+                    <div className="mb-4">
+                        <label htmlFor="Username" className="text-white">Username:</label>
+                        <input
+                            type="text"
+                            id="Username"
+                            value={username}
+                            onChange={(e) => setUsername(e.target.value)}
+                            className="block w-full h-10 px-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="Email" className="text-white">Email:</label>
+                        <input
+                            type="email"
+                            id="Email"
+                            value={email}
+                            onChange={(e) => setEmail(e.target.value)}
+                            className="block w-full h-10 px-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="Password" className="text-white">Password:</label>
+                        <input
+                            type="password"
+                            id="Password"
+                            value={password}
+                            onChange={(e) => setPassword(e.target.value)}
+                            className="block w-full h-10 px-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            required
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label htmlFor="ConfirmPassword" className="text-white">Confirm Password:</label>
+                        <input
+                            type="password"
+                            id="ConfirmPassword"
+                            value={confirmPassword}
+                            onChange={(e) => setConfirmPassword(e.target.value)}
+                            className="block w-full h-10 px-4 border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50"
+                            required
+                        />
+                    </div>
                     <div className="flex flex-col items-center justify-center text-white">
                         <button type="submit" className="mb-2" disabled={isSubmitting}>
                             <SignUpButton />
