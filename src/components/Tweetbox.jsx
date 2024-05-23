@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import axios from 'axios';
 
 const TweetBox = ({ onTweetCreated }) => {
   const [isVisible, setIsVisible] = useState(false);
@@ -15,8 +16,8 @@ const TweetBox = ({ onTweetCreated }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    const token = localStorage.getItem('token'); // Aseguramos que la clave es 'token'
-    console.log('Token:', token); // Añadir esto para depuración
+    const token = localStorage.getItem('token');
+    console.log('Token:', token);
 
     if (!token) {
       console.error('No access token found');
@@ -24,23 +25,22 @@ const TweetBox = ({ onTweetCreated }) => {
     }
 
     try {
-      const response = await fetch('https://api-proyecto-twitter.vercel.app/tweets', {
-        method: 'POST',
+      const response = await axios.post('https://api-proyecto-twitter.vercel.app/tweet', {
+        content
+      }, {
         headers: {
-          'Content-Type': 'application/json',
           'Authorization': `Bearer ${token}`
-        },
-        body: JSON.stringify({ content })
+        }
       });
 
       if (!response.ok) {
         throw new Error('Error al crear el tweet');
       }
 
-      const newTweet = await response.json();
-      onTweetCreated(newTweet); // Notificar al componente padre sobre el nuevo tweet
-      setContent(''); // Limpiar el textarea
-      setIsVisible(false); // Ocultar el TweetBox
+      const newTweet = response.data;
+      onTweetCreated(newTweet);
+      setContent('');
+      setIsVisible(false);
     } catch (error) {
       console.error('Error:', error);
     }
