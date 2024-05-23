@@ -8,7 +8,7 @@ const Tweet = ({ user, username, content, tweetId, verificacion }) => {
   const handleDelete = async () => {
     try {
       console.log(tweetId);
-      await axios.delete(`https://api-proyecto-twitter.vercel.app/tweets/delete/${tweetId}`, {
+      await axios.delete(`https://api-proyecto-twitter.vercel.app/tweet/delete/${tweetId}`, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
@@ -22,7 +22,7 @@ const Tweet = ({ user, username, content, tweetId, verificacion }) => {
 
   const handleEdit = async () => {
     try {
-      await axios.put(`https://api-proyecto-twitter.vercel.app/tweets/edit/${tweetId}`, { content: newContent }, {
+      await axios.put(`https://api-proyecto-twitter.vercel.app/tweet/edit/${tweetId}`, { content: newContent }, {
         headers: {
           Authorization: `Bearer ${localStorage.getItem('token')}`,
         },
