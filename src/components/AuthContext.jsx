@@ -3,8 +3,8 @@ import React, { createContext, useReducer, useContext } from 'react';
 export const AuthContext = createContext();
 
 const initialState = {
-  isAuthenticated: document.cookie.includes('isAuthenticated=true'),
-  user: null,
+  isAuthenticated: localStorage.getItem('isAuthenticated') === 'true',
+  user: JSON.parse(localStorage.getItem('user')) || null,
 };
 
 const authReducer = (state, action) => {
@@ -16,7 +16,6 @@ const authReducer = (state, action) => {
         user: action.payload,
       };
     case 'LOGOUT':
-      document.cookie = 'isAuthenticated=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
       return {
         ...state,
         isAuthenticated: false,
@@ -31,12 +30,14 @@ export const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
 
   const login = (user) => {
-    document.cookie = 'isAuthenticated=true; path=/;';
+    localStorage.setItem('isAuthenticated', 'true');
+    localStorage.setItem('user', JSON.stringify(user));
     dispatch({ type: 'LOGIN', payload: user });
   };
 
   const logout = () => {
-    document.cookie = 'isAuthenticated=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;';
+    localStorage.removeItem('isAuthenticated');
+    localStorage.removeItem('user');
     dispatch({ type: 'LOGOUT' });
   };
 

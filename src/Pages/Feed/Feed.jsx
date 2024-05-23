@@ -9,12 +9,11 @@ const Feed = () => {
   useEffect(() => {
     const fetchTweets = async () => {
       try {
-        const token = document.cookie.split('; ').find(row => row.startsWith('token=')).split('=')[1];
+        const token = localStorage.getItem('token');
         const response = await fetch('https://api-proyecto-twitter.vercel.app/home', {
           headers: {
             'Authorization': `Bearer ${token}`,
           },
-          credentials: 'include',
         });
 
         if (!response.ok) {
