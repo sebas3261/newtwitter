@@ -1,5 +1,7 @@
 export {default as Logo} from './Logo'
 export {default as LogInButton} from './LogInButton'
 export {default as SignUpButton} from './SignUpButton'
-import { ThemeProvider } from './ThemeContext';
-
+export {default as Header} from './Header'
+export {default as Sidebar} from './Sidebar'
+export {default as Tweet} from './Tweet'
+export {default as Tweetbox} from './Tweetbox'
