@@ -25,24 +25,16 @@ const TweetBox = ({ onTweetCreated }) => {
     }
 
     try {
-      const response = await axios.post('https://api-proyecto-twitter.vercel.app/tweet', {
-        content
-      }, {
-        headers: {
-          'Authorization': `Bearer ${token}`
-        }
-      });
-
-      if (!response.ok) {
-        throw new Error('Error al crear el tweet');
-      }
+      const response = await axios.post('https://api-proyecto-twitter.vercel.app/tweet', 
+      { content }, 
+      { headers: { 'Authorization': `Bearer ${token}` } });
 
       const newTweet = response.data;
       onTweetCreated(newTweet);
       setContent('');
       setIsVisible(false);
     } catch (error) {
-      console.error('Error:', error);
+      console.error('Error:', error.response?.data?.message || error.message);
     }
   };
 
